@@ -4,7 +4,7 @@ import ModelType from '../types/model.type';
 export default abstract class ItemRepository<T> {
   constructor(protected model: ModelType) {}
 
-  public findAll(include: Pick<IncludeOptions, 'model' | 'as'>) {
+  protected _findAll(include: Pick<IncludeOptions, 'model' | 'as'>) {
     return this.model.findAll({
       include: [
         {
@@ -14,4 +14,6 @@ export default abstract class ItemRepository<T> {
       ],
     }) as Promise<T>;
   }
+
+  public abstract findAll(): Promise<T>;
 }

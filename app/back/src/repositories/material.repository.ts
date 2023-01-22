@@ -8,7 +8,7 @@ export default class MaterialRepository extends ItemRepository<MaterialModel> {
   }
 
   public findAll() {
-    return super.findAll({
+    return this._findAll({
       model: ProductModel,
       as: 'products',
     });
