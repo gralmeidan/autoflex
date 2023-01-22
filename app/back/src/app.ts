@@ -1,6 +1,8 @@
+import 'express-async-errors';
 import * as express from 'express';
 import morgan = require('morgan');
 import { MaterialRouter } from './routes/material.routes';
+import handleError from './middlewares/handleError.middleware';
 
 class App {
   public app: express.Express;
@@ -10,6 +12,7 @@ class App {
 
     this.config();
     this.app.use('/materials', MaterialRouter);
+    this.app.use(handleError);
   }
 
   private config(): void {
