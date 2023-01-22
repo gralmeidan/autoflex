@@ -1,6 +1,7 @@
 import RestError from '../../../src/errors/rest.error';
 import handleError from '../../../src/middlewares/handleError.middleware';
 import mockExpressParams from '../../utils/mockExpressParams';
+import * as Sinon from 'sinon';
 import * as chai from 'chai';
 import * as sinonChai from 'sinon-chai';
 
@@ -9,6 +10,14 @@ chai.use(sinonChai);
 const { expect } = chai;
 
 describe('Tests handleError.middleware', () => {
+  before(() => {
+    Sinon.stub(console, 'log');
+  });
+
+  after(() => {
+    (console.log as Sinon.SinonStub).restore();
+  });
+
   it('Should return the error and the custom message if receiving a RestError', () => {
     const err = new RestError(404, 'Product not found');
     const { req, res, next } = mockExpressParams();
@@ -31,5 +40,6 @@ describe('Tests handleError.middleware', () => {
     expect(res.json).to.have.been.calledWith({
       message: 'Something went wrong',
     });
+    expect(console.log).to.have.been.calledWith(err);
   });
 });

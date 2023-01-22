@@ -11,7 +11,7 @@ export default abstract class ItemService<T> {
 
   public findById = async (id: string) => {
     const resp = await this.repository.findById(id);
-    console.log(resp);
+
     if (!resp) {
       throw new RestError(404, `${this.itemName} not found!`);
     }
