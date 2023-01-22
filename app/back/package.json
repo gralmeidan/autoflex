@@ -2,10 +2,10 @@
   "name": "back",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "npm run build && node ./dist/index.js",
-    "dev": "tsnd index.ts",
+    "start": "npm run build && node ./dist/server.js",
+    "dev": "tsnd ./src/server.ts",
     "build": "tsc",
     "test": "mocha --require ts-node/register ./tests/**/*.test.ts",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
