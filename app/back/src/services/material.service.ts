@@ -4,6 +4,6 @@ import ItemService from './item.service';
 
 export default class MaterialService extends ItemService<MaterialModel> {
   constructor() {
-    super(new MaterialRepository());
+    super(new MaterialRepository(), 'Material');
   }
 }
