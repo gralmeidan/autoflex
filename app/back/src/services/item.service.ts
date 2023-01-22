@@ -7,7 +7,8 @@ export default abstract class ItemService<T> {
     protected itemName: string
   ) {}
 
-  public findAll = () => this.repository.findAll();
+  public findAll = (filters?: Record<string, boolean>) =>
+    this.repository.findAll(filters);
 
   public findById = async (id: string) => {
     const resp = await this.repository.findById(id);
