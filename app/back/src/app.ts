@@ -1,5 +1,6 @@
 import * as express from 'express';
 import morgan = require('morgan');
+import { MaterialRouter } from './routes/material.routes';
 
 class App {
   public app: express.Express;
@@ -8,6 +9,7 @@ class App {
     this.app = express();
 
     this.config();
+    this.app.use('/materials', MaterialRouter);
   }
 
   private config(): void {
