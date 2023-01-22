@@ -23,7 +23,7 @@ export default abstract class ItemRepository<T> {
     return this.model.findByPk(id, options) as Promise<T>;
   }
 
-  public abstract findAll(): Promise<T>;
+  public abstract findAll(query?: Record<string, boolean>): Promise<T>;
 
   public abstract findById(id: string): Promise<T>;
 }
