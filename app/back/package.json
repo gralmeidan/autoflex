@@ -7,7 +7,7 @@
     "start": "npm run build && node ./dist/server.js",
     "dev": "tsnd ./src/server.ts",
     "build": "tsc",
-    "test": "mocha --require ts-node/register ./tests/**/*.test.ts",
+    "test": "mocha --require ts-node/register $(find . -name '*.test.ts')",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "test-coverage": "nyc npm test"
@@ -25,10 +25,10 @@
     "@types/restify-errors": "^4.3.4",
     "@types/sinon": "^10.0.13",
     "@types/sinon-chai": "^3.2.9",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.36.1",
     "chai": "^4.3.6",
-    "chai-http": "^4.3.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.5.0",
     "mocha": "^10.0.0",
@@ -37,6 +37,7 @@
     "sequelize-cli": "^6.5.2",
     "sinon": "^14.0.0",
     "sinon-chai": "^3.7.0",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.8.2"
