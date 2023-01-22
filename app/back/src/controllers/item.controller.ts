@@ -9,4 +9,9 @@ export default abstract class ItemController<T> {
     const response = await this.service.findAll();
     return res.status(HTTP_STATUS.OK).json(response);
   };
+
+  public findById = async (req: Request, res: Response) => {
+    const response = await this.service.findById(req.params.id);
+    return res.status(HTTP_STATUS.OK).json(response);
+  };
 }

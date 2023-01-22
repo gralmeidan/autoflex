@@ -8,9 +8,16 @@ export default class MaterialRepository extends ItemRepository<MaterialModel> {
   }
 
   public findAll() {
-    return this._findAll({
-      model: ProductModel,
-      as: 'products',
-    });
+    return this._findAll();
+  }
+
+  public findById(id: string) {
+    return this._findById(
+      id,
+      this.defaultOptions({
+        model: ProductModel,
+        as: 'products',
+      })
+    );
   }
 }
