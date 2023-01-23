@@ -19,6 +19,7 @@ ProductModel.init(
     },
     name: STRING,
     value: DOUBLE,
+    thumb: STRING,
   },
   {
     underscored: true,
