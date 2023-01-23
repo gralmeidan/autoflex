@@ -4,6 +4,7 @@ import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
 import productService from '../../services/product.service';
 import materialService from '../../services/material.service';
+import ItemTable from './ItemTable';
 
 export default function ItemsListPage() {
   const [data, setData] = useState([] as ProductByFindAll[] | Material[]);
@@ -16,7 +17,11 @@ export default function ItemsListPage() {
       const resp = await service.fetchAll();
       setData(resp);
     })();
-  }, [setData]);
+  }, [setData, pathname]);
 
-  return <div />;
+  return (
+    <div>
+      <ItemTable data={data} />
+    </div>
+  );
 }
