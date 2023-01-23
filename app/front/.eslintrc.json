@@ -5,15 +5,9 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "xo",
+    "xo-typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
-  ],
-  "overrides": [
-    {
-      "extends": ["xo-typescript"],
-      "files": ["*.ts", "*.tsx"]
-    }
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -21,7 +15,28 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
-    "import/no-unresolved": "error"
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    "@typescript-eslint/triple-slash-reference": [
+      "error",
+      {
+        "types": "prefer-import"
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "useTabs": false,
+        "singleQuote": true,
+        "trailingComma": "all"
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
