@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import productService from '../../services/product.service';
 import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
+import productService from '../../services/product.service';
+import materialService from '../../services/material.service';
 
 export default function ItemsListPage() {
   const [data, setData] = useState([] as ProductByFindAll[] | Material[]);
@@ -10,7 +11,9 @@ export default function ItemsListPage() {
 
   useEffect(() => {
     (async () => {
-      const resp = await productService.fetchAll();
+      const service =
+        pathname === '/products' ? productService : materialService;
+      const resp = await service.fetchAll();
       setData(resp);
     })();
   }, [setData]);
