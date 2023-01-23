@@ -1,14 +1,15 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ListPage from './pages/list';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import ItemsListPage from './pages/ItemsList';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
-          <ListPage></ListPage>
-        </Route>
+        {['/materials', 'products'].map((path, i) => (
+          <Route path={path} element={<ItemsListPage />} key={i} />
+        ))}
+        <Route path="*" element={<Navigate to="/products" replace />} />
       </Routes>
     </BrowserRouter>
   );
