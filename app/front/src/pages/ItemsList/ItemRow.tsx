@@ -1,6 +1,7 @@
 import React from 'react';
 import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
+import formattingUtils from '../../utils/formating.utils';
 
 export default function ItemRow({ item, key }: ItemRowProps) {
   function isProduct(
@@ -14,9 +15,9 @@ export default function ItemRow({ item, key }: ItemRowProps) {
       <td>{item.name}</td>
       {isProduct(item) ? (
         <>
-          <td>{item.value}</td>
+          <td>{formattingUtils.currency(item.value)}</td>
           <td>{item.craftable}</td>
-          <td>{item.subtotal}</td>
+          <td>{formattingUtils.currency(item.subtotal)}</td>
         </>
       ) : (
         <td>{item.quantity}</td>
