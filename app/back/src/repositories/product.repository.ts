@@ -15,17 +15,23 @@ export default class ProductRepository extends ItemRepository<IProduct> {
       `
       SELECT craftables.*
       FROM (
-          SELECT product.*,
-            FLOOR(MIN(material.quantity / info.quantity)) AS 'craftable',
+        SELECT product.*,
+          IFNULL(
+            FLOOR(MIN(material.quantity / info.quantity)),
+            0
+          ) AS 'craftable',
+          IFNULL(
             ROUND(
               FLOOR(MIN(material.quantity / info.quantity)) * product.value,
               2
-            ) AS 'subtotal'
-          FROM products as product
-            INNER JOIN materials_products AS info ON info.product_id = product.id
-            INNER JOIN materials AS material ON info.material_id = material.id
-          GROUP BY product.id
-        ) AS craftables
+            ),
+            0
+          ) AS 'subtotal'
+        FROM products as product
+          LEFT JOIN materials_products AS info ON info.product_id = product.id
+          LEFT JOIN materials AS material ON info.material_id = material.id
+        GROUP BY product.id
+      ) AS craftables
       ${!includeUncraftable ? 'WHERE craftables.craftable > 0' : ''}
       ORDER BY craftables.subtotal DESC;
       `,

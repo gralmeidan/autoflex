@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         name: 'Cable',
-        quantity: 200,
+        quantity: 0,
       },
     ]);
   },
