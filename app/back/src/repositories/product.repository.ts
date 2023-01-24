@@ -51,7 +51,14 @@ export default class ProductRepository extends ItemRepository<IProduct> {
     );
   }
 
-  public create = this._create;
+  public create(obj: IProduct & Record<string, unknown>): Promise<IProduct> {
+    return this._create(obj);
+  }
 
-  public update = this._update;
+  public update(
+    id: string,
+    obj: IProduct & Record<string, unknown>
+  ): Promise<[affectedCount: number]> {
+    return this._update(id, obj);
+  }
 }

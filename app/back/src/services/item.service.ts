@@ -36,16 +36,18 @@ export default abstract class ItemService<T> {
     return resp;
   };
 
-  public create = async (obj: T) => {
+  public create = async (obj: Partial<T>) => {
     const value = validateSchema(this.schema, obj, { isNew: true });
 
     return this.repository.create(value);
   };
 
-  public update = async (id: string, obj: T) => {
+  public update = async (id: string, obj: Partial<T>) => {
     const value = validateSchema(this.schema, obj, { isNew: false });
 
     const resp = (await this.findById(id)) as unknown as { dataValues: T };
+
+    await this.repository.update(id, value);
 
     return {
       ...resp.dataValues,

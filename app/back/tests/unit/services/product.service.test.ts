@@ -18,11 +18,19 @@ describe('Unit tests for ProductService', () => {
       productsData as any
     );
     Sinon.stub(ProductRepository.prototype, 'findById');
+    Sinon.stub(ProductRepository.prototype, 'create').resolves(
+      productData as any
+    );
+    Sinon.stub(ProductRepository.prototype, 'update').resolves({
+      affectedCount: 1,
+    } as any);
   });
 
   afterEach(() => {
     (ProductRepository.prototype.findAll as Sinon.SinonStub).restore();
     (ProductRepository.prototype.findById as Sinon.SinonStub).restore();
+    (ProductRepository.prototype.create as Sinon.SinonStub).restore();
+    (ProductRepository.prototype.update as Sinon.SinonStub).restore();
   });
 
   const service = new ProductService();
@@ -57,6 +65,90 @@ describe('Unit tests for ProductService', () => {
 
       expect(err.status).to.equal(404);
       expect(err.message).to.equal('Product not found!');
+    });
+  });
+
+  describe('Tests ProductService.create', () => {
+    it('Should return the expected result', async () => {
+      const { name, value } = productData;
+      const response = await service.create({ name, value });
+
+      expect(response).to.deep.equal(productData);
+      expect(ProductRepository.prototype.create).to.have.been.calledWith({
+        name,
+        value,
+      });
+    });
+
+    it('Should throw an error when passing an invalid object', async () => {
+      const INVALID_OBJECTS = [
+        {},
+        { name: 'lorem ipsum', value: 'dolor' },
+        { name: 'lorem ipsum', value: -3 },
+        { name: 'ipsum' },
+        { value: 55.5 },
+      ] as any[];
+
+      await Promise.all(
+        INVALID_OBJECTS.map(async input => {
+          const err = await expect(service.create(input)).to.be.rejectedWith(
+            RestError
+          );
+
+          expect(err.status).to.equal(422);
+        })
+      );
+    });
+  });
+
+  describe('Tests ProductService.update', () => {
+    it('Should return the expected result', async () => {
+      (ProductRepository.prototype.findById as Sinon.SinonStub).resolves({
+        dataValues: productData,
+      });
+      const { name, value } = productData;
+      const response = await service.update('1', { name, value });
+
+      expect(response).to.deep.equal(productData);
+      expect(ProductRepository.prototype.update).to.have.been.calledWith('1', {
+        name,
+        value,
+      });
+    });
+
+    it('Should throw an error if the product is not found', async () => {
+      (ProductRepository.prototype.findById as Sinon.SinonStub).resolves(
+        undefined
+      );
+      const { name, value } = productData;
+
+      const err = await expect(
+        service.update('1', { name, value })
+      ).to.be.rejectedWith(RestError);
+
+      expect(err.status).to.equal(404);
+      expect(err.message).to.equal('Product not found!');
+    });
+
+    it('Should throw an error when passing an invalid object', async () => {
+      (ProductRepository.prototype.findById as Sinon.SinonStub).resolves(
+        productData
+      );
+      const INVALID_OBJECTS = [
+        { id: 5 },
+        {},
+        { name: 'lorem ipsum', value: -3 },
+      ] as any[];
+
+      await Promise.all(
+        INVALID_OBJECTS.map(async input => {
+          const err = await expect(
+            service.update('1', input)
+          ).to.be.rejectedWith(RestError);
+
+          expect(err.status).to.equal(422);
+        })
+      );
     });
   });
 });

@@ -21,7 +21,16 @@ export default class MaterialRepository extends ItemRepository<MaterialModel> {
     );
   }
 
-  public create = this._create;
+  public create(
+    obj: MaterialModel & Record<string, unknown>
+  ): Promise<MaterialModel> {
+    return this._create(obj);
+  }
 
-  public update = this._update;
+  public update(
+    id: string,
+    obj: MaterialModel & Record<string, unknown>
+  ): Promise<[affectedCount: number]> {
+    return this._update(id, obj);
+  }
 }
