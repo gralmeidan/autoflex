@@ -25,16 +25,18 @@ export default function ItemsListPage() {
         <Link to={`${pathname}/new`} role="button">
           + Novo
         </Link>
-        <label className="select-none ">
-          <input
-            type="checkbox"
-            checked={includeUncraftable}
-            onChange={({ target: { checked } }) => {
-              setIncludeUncraftable(checked);
-            }}
-          />
-          Incluir não criáveis
-        </label>
+        {pathname === '/products' && (
+          <label className="select-none ">
+            <input
+              type="checkbox"
+              checked={includeUncraftable}
+              onChange={({ target: { checked } }) => {
+                setIncludeUncraftable(checked);
+              }}
+            />
+            Incluir não criáveis
+          </label>
+        )}
       </div>
       <ItemTable data={data} />
     </main>
