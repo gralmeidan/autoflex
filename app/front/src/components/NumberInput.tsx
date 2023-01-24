@@ -21,7 +21,7 @@ export default function NumberInput(props: NumberInputProps) {
   );
 }
 
-type NumberInputProps = {
+export type NumberInputProps = {
   decimals?: number;
   min?: number;
   setValue: (v: number) => void;
