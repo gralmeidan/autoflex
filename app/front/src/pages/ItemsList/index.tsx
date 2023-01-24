@@ -20,7 +20,7 @@ export default function ItemsListPage() {
   }, [setData, pathname]);
 
   return (
-    <div>
+    <div className="container">
       <ItemTable data={data} />
     </div>
   );

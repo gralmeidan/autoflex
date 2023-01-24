@@ -8,7 +8,7 @@ export default function ItemTable({ data }: ItemTableProps) {
   const { pathname } = useLocation();
 
   return (
-    <table data-testid="items-table">
+    <table data-testid="items-table" className="container" role="grid">
       <thead>
         <tr>
           <th>Nome</th>
