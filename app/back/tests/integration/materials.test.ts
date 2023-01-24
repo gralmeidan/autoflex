@@ -11,11 +11,15 @@ describe('Tests all routes on /materials', () => {
   beforeEach(() => {
     Sinon.stub(MaterialModel, 'findAll').resolves(materialsData as any);
     Sinon.stub(MaterialModel, 'findByPk');
+    Sinon.stub(MaterialModel, 'create');
+    Sinon.stub(MaterialModel, 'update');
   });
 
   afterEach(() => {
     (MaterialModel.findAll as Sinon.SinonStub).restore();
     (MaterialModel.findByPk as Sinon.SinonStub).restore();
+    (MaterialModel.create as Sinon.SinonStub).restore();
+    (MaterialModel.update as Sinon.SinonStub).restore();
   });
 
   describe('Tests GET /', () => {
@@ -44,6 +48,39 @@ describe('Tests all routes on /materials', () => {
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
         message: 'Material not found!',
+      });
+    });
+  });
+  describe('Tests POST /', () => {
+    it('Should return the expected data with a 201 status code', async () => {
+      (MaterialModel.create as Sinon.SinonStub).resolves(materialData);
+      const response = await request(app).post('/materials').send({
+        name: materialData.name,
+        quantity: materialData.quantity,
+      });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.deep.equal(materialData);
+    });
+  });
+
+  describe('Tests PUT /:id', () => {
+    it('Should return the expected data with a 200 status code', async () => {
+      (MaterialModel.update as Sinon.SinonStub).resolves({ affectedCount: 1 });
+      (MaterialModel.findByPk as Sinon.SinonStub).resolves({
+        dataValues: materialData,
+      });
+      const input = {
+        name: 'Complicado',
+        quantity: 25,
+      };
+
+      const response = await request(app).put('/materials/1').send(input);
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({
+        ...materialData,
+        ...input,
       });
     });
   });

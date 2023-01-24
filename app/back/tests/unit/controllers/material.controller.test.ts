@@ -14,6 +14,8 @@ describe('Unit tests for MaterialController', () => {
   const service = {
     findAll: Sinon.stub().resolves(materialsData),
     findById: Sinon.stub().resolves(materialData),
+    create: Sinon.stub().resolves(materialData),
+    update: Sinon.stub().resolves(materialData),
   };
 
   const controller = new MaterialController(service as any);
@@ -34,6 +36,33 @@ describe('Unit tests for MaterialController', () => {
       await controller.findById(req, res);
 
       expect(service.findById).to.have.been.calledWith('1');
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(materialData);
+    });
+  });
+
+  describe('Tests MaterialController.create', () => {
+    it('Should return the expected result', async () => {
+      const { req, res } = mockExpressParams({
+        body: materialData,
+      });
+      await controller.create(req, res);
+
+      expect(service.create).to.have.been.calledWith(materialData);
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(materialData);
+    });
+  });
+
+  describe('Tests MaterialController.update', () => {
+    it('Should return the expected result', async () => {
+      const { req, res } = mockExpressParams({
+        params: { id: '1' },
+        body: materialData,
+      });
+      await controller.update(req, res);
+
+      expect(service.update).to.have.been.calledWith('1', materialData);
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(materialData);
     });
