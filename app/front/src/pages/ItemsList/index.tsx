@@ -10,6 +10,7 @@ export default function ItemsListPage() {
   const [data, setData] = useState([] as ProductByFindAll[] | Material[]);
   const [includeUncraftable, setIncludeUncraftable] = useState(false);
   const { pathname } = useLocation();
+
   useEffect(() => {
     (async () => {
       const service =
@@ -29,6 +30,7 @@ export default function ItemsListPage() {
           <label className="select-none ">
             <input
               type="checkbox"
+              data-testid="filter-includeCraftables"
               checked={includeUncraftable}
               onChange={({ target: { checked } }) => {
                 setIncludeUncraftable(checked);
