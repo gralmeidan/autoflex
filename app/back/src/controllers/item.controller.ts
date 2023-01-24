@@ -14,4 +14,14 @@ export default abstract class ItemController<T> {
     const response = await this.service.findById(req.params.id);
     return res.status(HTTP_STATUS.OK).json(response);
   };
+
+  public create = async (req: Request, res: Response) => {
+    const response = await this.service.create(req.body);
+    return res.status(HTTP_STATUS.CREATED).json(response);
+  };
+
+  public update = async (req: Request, res: Response) => {
+    const response = await this.service.update(req.params.id, req.body);
+    return res.status(HTTP_STATUS.OK).json(response);
+  };
 }

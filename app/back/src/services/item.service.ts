@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
 import RestError from '../errors/rest.error';
 import ItemRepository from '../repositories/item.repository';
+import validateSchema from './schemas/utils/validateSchema';
 
 export default abstract class ItemService<T> {
   protected schema: Joi.AlternativesSchema;
@@ -33,5 +34,22 @@ export default abstract class ItemService<T> {
     }
 
     return resp;
+  };
+
+  public create = async (obj: T) => {
+    const value = validateSchema(this.schema, obj, { isNew: true });
+
+    return this.repository.create(value);
+  };
+
+  public update = async (id: string, obj: T) => {
+    const value = validateSchema(this.schema, obj, { isNew: false });
+
+    const resp = (await this.findById(id)) as unknown as { dataValues: T };
+
+    return {
+      ...resp.dataValues,
+      ...value,
+    };
   };
 }
