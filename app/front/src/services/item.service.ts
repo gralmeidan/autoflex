@@ -1,21 +1,19 @@
-import axios, { type AxiosInstance } from 'axios';
+import axios from 'axios';
 
 export default abstract class ItemService<FindOneType, FindAllType> {
-  protected client: AxiosInstance;
+  protected baseUrl: string;
 
   constructor(protected type: string) {
-    this.client = axios.create({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      baseURL: `http://localhost:3001/${type}`,
-      timeout: 1000,
-    });
+    this.baseUrl = `http://localhost:3001/${type}`;
   }
 
   public async fetchAll(): Promise<FindAllType> {
-    return this.client.get('/').then(({ data }) => data as FindAllType);
+    return axios
+      .get(`${this.baseUrl}/`)
+      .then(({ data }) => data as FindAllType);
   }
 
   public async fetchOne(id: number | string): Promise<FindOneType> {
-    return this.client.get(`/${id}`);
+    return axios.get(`${this.baseUrl}/${id}`);
   }
 }

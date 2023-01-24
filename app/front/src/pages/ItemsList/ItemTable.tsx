@@ -8,7 +8,7 @@ export default function ItemTable({ data }: ItemTableProps) {
   const { pathname } = useLocation();
 
   return (
-    <table>
+    <table data-testid="items-table">
       <thead>
         <tr>
           <th>Nome</th>
@@ -25,7 +25,7 @@ export default function ItemTable({ data }: ItemTableProps) {
       </thead>
       <tbody>
         {data.map((item, i) => (
-          <ItemRow item={item as Material | ProductByFindAll} key={i} />
+          <ItemRow item={item as Material | ProductByFindAll} key={i} i={i} />
         ))}
       </tbody>
     </table>

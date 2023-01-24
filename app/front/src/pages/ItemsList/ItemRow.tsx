@@ -3,7 +3,7 @@ import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
 import formattingUtils from '../../utils/formating.utils';
 
-export default function ItemRow({ item, key }: ItemRowProps) {
+export default function ItemRow({ item, i }: ItemRowProps) {
   function isProduct(
     item: Material | ProductByFindAll,
   ): item is ProductByFindAll {
@@ -11,7 +11,7 @@ export default function ItemRow({ item, key }: ItemRowProps) {
   }
 
   return (
-    <tr key={key}>
+    <tr data-testid={`item-row-${i}`}>
       <td>{item.name}</td>
       {isProduct(item) ? (
         <>
@@ -28,5 +28,5 @@ export default function ItemRow({ item, key }: ItemRowProps) {
 
 type ItemRowProps = {
   item: Material | ProductByFindAll;
-  key: number;
+  i: number;
 };
