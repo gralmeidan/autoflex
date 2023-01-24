@@ -20,7 +20,7 @@ export default function ItemsListPage() {
   }, [setData, pathname]);
 
   return (
-    <div className="container">
+    <div className="container py-8">
       <ItemTable data={data} />
     </div>
   );

@@ -15,7 +15,7 @@ export default function ItemTable({ data }: ItemTableProps) {
           {pathname === '/products' ? (
             <>
               <th>Valor</th>
-              <th>Criáveis</th>
+              <th className="hidden sm:table-cell">Criáveis</th>
               <th>Sub-total</th>
             </>
           ) : (

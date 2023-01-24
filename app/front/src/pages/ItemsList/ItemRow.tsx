@@ -18,7 +18,12 @@ export default function ItemRow({ item, i }: ItemRowProps) {
           <td data-testid={`item-row-${i}-value`}>
             {formattingUtils.currency(item.value)}
           </td>
-          <td data-testid={`item-row-${i}-craftable`}>{item.craftable}</td>
+          <td
+            data-testid={`item-row-${i}-craftable`}
+            className="hidden sm:table-cell"
+          >
+            {item.craftable}
+          </td>
           <td data-testid={`item-row-${i}-subtotal`}>
             {formattingUtils.currency(item.subtotal)}
           </td>
