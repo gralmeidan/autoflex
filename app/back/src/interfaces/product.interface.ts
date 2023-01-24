@@ -2,7 +2,6 @@ export default interface IProduct {
   id: number;
   name: string;
   value: number;
-  thumb: string;
   craftable?: number;
   subtotal?: number;
   materials?: {

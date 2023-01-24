@@ -18,10 +18,6 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: false,
       },
-      thumb: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
     });
   },
 

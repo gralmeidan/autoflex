@@ -17,7 +17,6 @@ MaterialModel.init(
     },
     name: STRING,
     quantity: INTEGER,
-    thumb: STRING,
   },
   {
     underscored: true,

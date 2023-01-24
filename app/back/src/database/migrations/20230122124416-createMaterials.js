@@ -18,10 +18,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      thumb: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
     });
   },
 
