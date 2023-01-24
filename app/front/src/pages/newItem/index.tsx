@@ -6,7 +6,6 @@ export default function NewItemPage() {
   const [num, setNum] = useState(0);
   const isProducts = useLocation().pathname.includes('products');
   const type = isProducts ? 'Produto' : 'Material';
-  console.log(num);
 
   return (
     <main className="container py-8">
@@ -17,15 +16,19 @@ export default function NewItemPage() {
             Nome
             <input type="text" name="name" />
           </label>
-          <label>
-            Quantidade
-            <input className="" type="number" name="" id="" />
-          </label>
           <NumberInput
-            label="Quantidade"
+            min={0}
             value={num}
             setValue={setNum}
-            min={0}
+            {...(isProducts
+              ? {
+                  label: 'Valor',
+                  decimals: 2,
+                }
+              : {
+                  label: 'Quantidade',
+                  decimals: 0,
+                })}
           />
         </fieldset>
       </form>
