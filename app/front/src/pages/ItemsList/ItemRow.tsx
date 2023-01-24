@@ -12,15 +12,19 @@ export default function ItemRow({ item, i }: ItemRowProps) {
 
   return (
     <tr data-testid={`item-row-${i}`}>
-      <td>{item.name}</td>
+      <td data-testid={`item-row-${i}-name`}>{item.name}</td>
       {isProduct(item) ? (
         <>
-          <td>{formattingUtils.currency(item.value)}</td>
-          <td>{item.craftable}</td>
-          <td>{formattingUtils.currency(item.subtotal)}</td>
+          <td data-testid={`item-row-${i}-value`}>
+            {formattingUtils.currency(item.value)}
+          </td>
+          <td data-testid={`item-row-${i}-craftable`}>{item.craftable}</td>
+          <td data-testid={`item-row-${i}-subtotal`}>
+            {formattingUtils.currency(item.subtotal)}
+          </td>
         </>
       ) : (
-        <td>{item.quantity}</td>
+        <td data-testid={`item-row-${i}-quantity`}>{item.quantity}</td>
       )}
     </tr>
   );

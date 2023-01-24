@@ -14,12 +14,12 @@ export default function ItemTable({ data }: ItemTableProps) {
           <th>Nome</th>
           {pathname === '/products' ? (
             <>
-              <td>Valor</td>
-              <td>Criáveis</td>
-              <td>Sub-total</td>
+              <th>Valor</th>
+              <th>Criáveis</th>
+              <th>Sub-total</th>
             </>
           ) : (
-            <td>Quantidade</td>
+            <th>Quantidade</th>
           )}
         </tr>
       </thead>
