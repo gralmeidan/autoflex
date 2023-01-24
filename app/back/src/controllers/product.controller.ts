@@ -11,7 +11,7 @@ export default class ProductController extends ItemController<IProduct> {
 
   public findAll = async (req: Request, res: Response) => {
     const response = await this.service.findAll({
-      includeUncraftable: Boolean(req.query?.includeUncraftable),
+      includeUncraftable: req.query?.includeUncraftable === 'true',
     });
     return res.status(HTTP_STATUS.OK).json(response);
   };
