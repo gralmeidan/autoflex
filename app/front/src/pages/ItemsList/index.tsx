@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
 import productService from '../../services/product.service';
@@ -22,7 +22,9 @@ export default function ItemsListPage() {
   return (
     <main className="container py-8">
       <div className="flex justify-between w-full items-center py-3">
-        <button className="w-fit px-4 py-2 pl-3">+ Novo</button>
+        <Link to={`${pathname}/new`} role="button">
+          + Novo
+        </Link>
         <label className="select-none ">
           <input
             type="checkbox"
