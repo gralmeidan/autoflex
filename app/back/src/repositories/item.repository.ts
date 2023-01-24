@@ -23,7 +23,24 @@ export default abstract class ItemRepository<T> {
     return this.model.findByPk(id, options) as Promise<T>;
   }
 
+  protected _create(obj: T & Record<string, unknown>) {
+    return this.model.create(obj) as Promise<T>;
+  }
+
+  protected _update(id: string, obj: T & Record<string, unknown>) {
+    return this.model.update(obj, {
+      where: { id },
+    });
+  }
+
   public abstract findAll(query?: Record<string, boolean>): Promise<T>;
 
   public abstract findById(id: string): Promise<T>;
+
+  public abstract create(obj: T & Record<string, unknown>): Promise<T>;
+
+  public abstract update(
+    id: string,
+    obj: T & Record<string, unknown>
+  ): Promise<[affectedCount: number]>;
 }

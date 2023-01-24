@@ -20,4 +20,8 @@ export default class MaterialRepository extends ItemRepository<MaterialModel> {
       })
     );
   }
+
+  public create = this._create;
+
+  public update = this._update;
 }

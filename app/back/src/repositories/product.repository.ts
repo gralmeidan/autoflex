@@ -44,4 +44,8 @@ export default class ProductRepository extends ItemRepository<IProduct> {
       })
     );
   }
+
+  public create = this._create;
+
+  public update = this._update;
 }
