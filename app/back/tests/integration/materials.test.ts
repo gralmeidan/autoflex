@@ -13,6 +13,7 @@ describe('Tests all routes on /materials', () => {
     Sinon.stub(MaterialModel, 'findByPk');
     Sinon.stub(MaterialModel, 'create');
     Sinon.stub(MaterialModel, 'update');
+    Sinon.stub(MaterialModel, 'destroy');
   });
 
   afterEach(() => {
@@ -20,6 +21,7 @@ describe('Tests all routes on /materials', () => {
     (MaterialModel.findByPk as Sinon.SinonStub).restore();
     (MaterialModel.create as Sinon.SinonStub).restore();
     (MaterialModel.update as Sinon.SinonStub).restore();
+    (MaterialModel.destroy as Sinon.SinonStub).restore();
   });
 
   describe('Tests GET /', () => {
@@ -82,6 +84,17 @@ describe('Tests all routes on /materials', () => {
         ...materialData,
         ...input,
       });
+    });
+  });
+
+  describe('Tests DELETE /:id', () => {
+    it('Should return nothing with a 204 status code', async () => {
+      (MaterialModel.destroy as Sinon.SinonStub).resolves(1);
+
+      const response = await request(app).delete('/materials/1').send();
+
+      expect(response.status).to.equal(204);
+      expect(response.body).to.deep.equal({});
     });
   });
 });

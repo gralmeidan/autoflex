@@ -24,4 +24,9 @@ export default abstract class ItemController<T> {
     const response = await this.service.update(req.params.id, req.body);
     return res.status(HTTP_STATUS.OK).json(response);
   };
+
+  public remove = async (req: Request, res: Response) => {
+    await this.service.remove(req.params.id);
+    return res.status(HTTP_STATUS.NO_CONTENT).send();
+  };
 }

@@ -54,4 +54,6 @@ export default abstract class ItemService<T> {
       ...value,
     };
   };
+
+  public remove = async (id: string) => this.repository.remove(id);
 }

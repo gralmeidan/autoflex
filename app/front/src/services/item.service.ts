@@ -29,6 +29,19 @@ export default abstract class ItemService<FindOneType, FindAllType> {
     return axios.post(this.baseUrl, { ...obj }).catch(this.handleError);
   }
 
+  public async update(
+    id: string,
+    obj: {
+      name?: string;
+      value?: number;
+      quantity?: number;
+    },
+  ): Promise<CreateUpdateResponse<FindOneType>> {
+    return axios
+      .put(`${this.baseUrl}/${id}`, { ...obj })
+      .catch(this.handleError);
+  }
+
   protected encodeQueryObj(
     query: Record<string, string | number | boolean> = {},
   ): string {

@@ -20,7 +20,7 @@ export default function ItemForm({ submitData, id }: ItemFieldSetProps) {
         setNum('value' in resp ? resp.value : resp.quantity);
       })();
     }
-  });
+  }, []);
 
   return (
     <fieldset>
@@ -52,5 +52,5 @@ export default function ItemForm({ submitData, id }: ItemFieldSetProps) {
 
 type ItemFieldSetProps = {
   submitData: (name: string, num: number) => void;
-  id?: number;
+  id?: string;
 };

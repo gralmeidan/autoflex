@@ -43,4 +43,12 @@ export default abstract class ItemRepository<T> {
     id: string,
     obj: T & Record<string, unknown>
   ): Promise<[affectedCount: number]>;
+
+  public remove(id: string) {
+    return this.model.destroy({
+      where: {
+        id,
+      },
+    });
+  }
 }

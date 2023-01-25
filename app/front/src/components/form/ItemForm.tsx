@@ -30,5 +30,5 @@ type ItemFormProps = {
   response: CreateUpdateResponse<unknown> | undefined;
   title: string;
   name: string;
-  id?: number;
+  id?: string;
 };

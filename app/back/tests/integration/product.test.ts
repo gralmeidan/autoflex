@@ -14,6 +14,7 @@ describe('Tests all routes on /products', () => {
     Sinon.stub(ProductModel, 'findByPk');
     Sinon.stub(ProductModel, 'create');
     Sinon.stub(ProductModel, 'update');
+    Sinon.stub(ProductModel, 'destroy');
   });
 
   afterEach(() => {
@@ -21,6 +22,7 @@ describe('Tests all routes on /products', () => {
     (ProductModel.findByPk as Sinon.SinonStub).restore();
     (ProductModel.create as Sinon.SinonStub).restore();
     (ProductModel.update as Sinon.SinonStub).restore();
+    (ProductModel.destroy as Sinon.SinonStub).restore();
   });
 
   describe('Tests GET /', () => {
@@ -84,6 +86,17 @@ describe('Tests all routes on /products', () => {
         ...productData,
         ...input,
       });
+    });
+  });
+
+  describe('Tests DELETE /:id', () => {
+    it('Should return nothing with a 204 status code', async () => {
+      (ProductModel.destroy as Sinon.SinonStub).resolves(1);
+
+      const response = await request(app).delete('/products/1').send();
+
+      expect(response.status).to.equal(204);
+      expect(response.body).to.deep.equal({});
     });
   });
 });

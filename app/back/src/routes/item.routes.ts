@@ -11,5 +11,6 @@ export default abstract class ItemRoutes<T> {
     this._router.get('/:id', controller.findById);
     this._router.post('/', controller.create);
     this._router.put('/:id', controller.update);
+    this._router.delete('/:id', controller.remove);
   }
 }

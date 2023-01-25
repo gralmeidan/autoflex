@@ -34,6 +34,8 @@ ProductModel.belongsToMany(MaterialModel, {
   through: MaterialProductModel,
   foreignKey: 'productId',
   otherKey: 'materialId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 });
 
 MaterialModel.belongsToMany(ProductModel, {
@@ -41,6 +43,8 @@ MaterialModel.belongsToMany(ProductModel, {
   through: MaterialProductModel,
   foreignKey: 'materialId',
   otherKey: 'productId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 });
 
 export default ProductModel;
