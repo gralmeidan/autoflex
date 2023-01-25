@@ -54,7 +54,7 @@ export default function ItemDetailsModal({
           label="Excluir"
           className="secondary"
           onClick={() => {
-            alert('Não implementado');
+            void service.remove(id);
           }}
         />
         <Button

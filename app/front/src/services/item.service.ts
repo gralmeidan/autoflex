@@ -42,6 +42,10 @@ export default abstract class ItemService<FindOneType, FindAllType> {
       .catch(this.handleError);
   }
 
+  public async remove(id: string | number) {
+    return axios.delete(`${this.baseUrl}/${id}`);
+  }
+
   protected encodeQueryObj(
     query: Record<string, string | number | boolean> = {},
   ): string {
