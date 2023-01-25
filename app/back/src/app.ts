@@ -5,6 +5,7 @@ import { MaterialRouter } from './routes/material.routes';
 import handleError from './middlewares/handleError.middleware';
 import { ProductRouter } from './routes/product.routes';
 import { FileRouter } from './routes/file.routes';
+import { RecipeRouter } from './routes/recipe.routes';
 
 class App {
   public app: express.Express;
@@ -16,6 +17,7 @@ class App {
     this.app.use('/materials', MaterialRouter);
     this.app.use('/products', ProductRouter);
     this.app.use('/public', FileRouter);
+    this.app.use('/recipes', RecipeRouter);
     this.app.use(handleError);
   }
 
