@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
 import formattingUtils from '../../utils/formating.utils';
-import Modal from '../../components/Modal';
+import ItemDetailsModal from './ItemDetailsModal';
 
 export default function ItemRow({ item, i }: ItemRowProps) {
   const [detailed, setDetailed] = useState(false);
@@ -43,14 +43,12 @@ export default function ItemRow({ item, i }: ItemRowProps) {
         )}
       </tr>
       {detailed && (
-        <Modal
+        <ItemDetailsModal
+          id={item.id}
           closeModal={() => {
             setDetailed(false);
           }}
-          title="Modal"
-        >
-          <p>opa</p>
-        </Modal>
+        />
       )}
     </>
   );

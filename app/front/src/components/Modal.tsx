@@ -15,13 +15,15 @@ export default function Modal({ closeModal, children, title }: ModalProps) {
           e.stopPropagation();
         }}
       >
-        <a
-          aria-label="Close"
-          className="close"
-          data-target="modal-example"
-          onClick={closeModal}
-        />
-        <h3>{title}</h3>
+        <header className="pb-3 mb-2">
+          <a
+            aria-label="Close"
+            className="close cursor-pointer"
+            data-target="modal-example"
+            onClick={closeModal}
+          />
+          <h4 className="mb-0">{title}</h4>
+        </header>
         {children}
       </article>
     </dialog>

@@ -9,16 +9,16 @@ export default abstract class ItemService<FindOneType, FindAllType> {
     this.baseUrl = `http://localhost:3001/${type}`;
   }
 
-  public async fetchAll(
-    query?: Record<string, string | number | boolean>,
-  ): Promise<FindAllType> {
+  public async fetchAll(query?: Record<string, string | number | boolean>) {
     return axios
       .get(`${this.baseUrl}?${this.encodeQueryObj(query)}`)
       .then(({ data }) => data as FindAllType);
   }
 
-  public async fetchOne(id: number | string): Promise<FindOneType> {
-    return axios.get(`${this.baseUrl}/${id}`);
+  public async fetchOne(id: number | string) {
+    return axios
+      .get(`${this.baseUrl}/${id}`)
+      .then(({ data }) => data as FindOneType);
   }
 
   public async create(obj: {
