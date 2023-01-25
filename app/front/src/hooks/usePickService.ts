@@ -3,12 +3,12 @@ import productService from '../services/product.service';
 import materialService from '../services/material.service';
 
 export default function usePickService() {
-  const { pathname } = useLocation();
-  const isProducts = pathname.includes('product');
+  const location = useLocation();
+  const isProducts = location.pathname.includes('product');
 
   return {
     isProducts,
-    pathname,
+    ...location,
     service: isProducts ? productService : materialService,
   };
 }

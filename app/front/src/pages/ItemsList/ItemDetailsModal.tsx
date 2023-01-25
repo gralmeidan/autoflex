@@ -5,12 +5,15 @@ import { type Material } from '../../types/materials.types';
 import usePickService from '../../hooks/usePickService';
 import formatingUtils from '../../utils/formating.utils';
 import SmallItemCard from '../../components/SmallItemCard';
+import Button from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function ItemDetailsModal({
   id,
   closeModal,
 }: ItemDetailsModalProps) {
-  const { service } = usePickService();
+  const navigate = useNavigate();
+  const { service, pathname } = usePickService();
   const [data, setData] = useState<
     ProductIndividual | Required<Material> | undefined
   >();
@@ -46,6 +49,21 @@ export default function ItemDetailsModal({
           <button className="ul-card">+ Novo</button>
         </ul>
       </div>
+      <footer className="flex  gap-2">
+        <Button
+          label="Excluir"
+          className="secondary"
+          onClick={() => {
+            alert('Não implementado');
+          }}
+        />
+        <Button
+          label="Editar"
+          onClick={() => {
+            navigate(`${pathname}/edit/${id}`);
+          }}
+        />
+      </footer>
     </Modal>
   ) : (
     <p />
