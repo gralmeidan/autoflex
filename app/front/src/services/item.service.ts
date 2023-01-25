@@ -2,11 +2,7 @@ import axios from 'axios';
 import { type ApiError } from '../types/errors.types';
 import { type CreateUpdateResponse } from '../types/response.types';
 
-export default abstract class ItemService<
-  FindOneType,
-  FindAllType,
-  CreateInput,
-> {
+export default abstract class ItemService<FindOneType, FindAllType> {
   protected baseUrl: string;
 
   constructor(protected type: string) {
@@ -25,9 +21,11 @@ export default abstract class ItemService<
     return axios.get(`${this.baseUrl}/${id}`);
   }
 
-  public async create(
-    obj: CreateInput,
-  ): Promise<CreateUpdateResponse<FindOneType>> {
+  public async create(obj: {
+    name: string;
+    value?: number;
+    quantity?: number;
+  }): Promise<CreateUpdateResponse<FindOneType>> {
     return axios.post(this.baseUrl, { ...obj }).catch(this.handleError);
   }
 

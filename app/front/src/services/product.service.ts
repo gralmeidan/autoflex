@@ -1,14 +1,12 @@
 import {
   type ProductIndividual,
   type ProductByFindAll,
-  type Product,
 } from '../types/products.types';
 import ItemService from './item.service';
 
 class ProductService extends ItemService<
   ProductIndividual,
-  ProductByFindAll[],
-  Pick<Product, 'name' | 'value'>
+  ProductByFindAll[]
 > {
   constructor() {
     super('products');

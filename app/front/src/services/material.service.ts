@@ -1,11 +1,7 @@
 import { type Material } from '../types/materials.types';
 import ItemService from './item.service';
 
-class MaterialService extends ItemService<
-  Material,
-  Material[],
-  Pick<Material, 'name' | 'quantity'>
-> {
+class MaterialService extends ItemService<Material, Material[]> {
   constructor() {
     super('materials');
   }

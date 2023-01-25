@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import NumberInput from '../../components/NumberInput';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import productService from '../../services/product.service';
-import { type ServiceError } from '../../types/errors.types';
 import { type CreateUpdateResponse } from '../../types/response.types';
+import ItemForm from './ItemForm';
+import usePickService from '../../hooks/usePickService';
 
 export default function NewItemPage() {
-  const [num, setNum] = useState(0);
-  const [name, setName] = useState('');
   const [response, setResponse] = useState<
     CreateUpdateResponse<unknown> | undefined
   >();
-  const isProducts = useLocation().pathname.includes('products');
-  const type = isProducts ? 'Produto' : 'Material';
+  const { isProducts, service } = usePickService();
+  const name = isProducts ? 'Produto' : 'Material';
 
-  const submitData = async () => {
-    const resp = await productService.create({
+  const submitData = async (name: string, num: number) => {
+    const resp = await service.create({
       name,
-      value: num,
+      [isProducts ? 'value' : 'quantity']: num,
     });
 
     setResponse(resp);
@@ -27,33 +21,14 @@ export default function NewItemPage() {
 
   return (
     <main className="container py-8">
-      <h1>Registrar novo {type}</h1>
-      <form>
-        <fieldset>
-          <Input label="Nome" value={name} setValue={setName} />
-          <NumberInput
-            min={0}
-            value={num}
-            setValue={setNum}
-            {...(isProducts
-              ? {
-                  label: 'Valor',
-                  decimals: 2,
-                }
-              : {
-                  label: 'Quantidade',
-                  decimals: 0,
-                })}
-          />
-          <Button onClick={submitData} label="Criar" type="submit" />
-        </fieldset>
-        {response &&
-          (response.error ? (
-            <p>{response.error.message}</p>
-          ) : (
-            <ins>{type} inserido com sucesso</ins>
-          ))}
-      </form>
+      <h1>Registrar novo {name}</h1>
+      <ItemForm submitData={submitData} />
+      {response &&
+        (response.error ? (
+          <p>{response.error.message}</p>
+        ) : (
+          <ins>{name} inserido com sucesso</ins>
+        ))}
     </main>
   );
 }
