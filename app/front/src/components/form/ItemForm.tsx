@@ -7,12 +7,13 @@ export default function ItemForm({
   response,
   title,
   name,
+  id,
 }: ItemFormProps) {
   return (
     <main className="container py-8">
       <h1>{title}</h1>
       <form>
-        <ItemFieldset submitData={submitData} />
+        <ItemFieldset submitData={submitData} id={id} />
       </form>
       {response &&
         (response.error ? (
@@ -29,4 +30,5 @@ type ItemFormProps = {
   response: CreateUpdateResponse<unknown> | undefined;
   title: string;
   name: string;
+  id?: number;
 };

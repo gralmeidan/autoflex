@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NumberInput from '../NumberInput';
 import Input from '../Input';
 import Button from '../Button';
 import { useLocation } from 'react-router-dom';
+import usePickService from '../../hooks/usePickService';
 
-export default function ItemForm({ submitData }: ItemFieldSetProps) {
+export default function ItemForm({ submitData, id }: ItemFieldSetProps) {
   const { pathname } = useLocation();
+  const { service } = usePickService();
   const [name, setName] = useState('');
   const [num, setNum] = useState(0);
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        const resp = await service.fetchOne(id);
+
+        setName(resp.name);
+        setNum('value' in resp ? resp.value : resp.quantity);
+      })();
+    }
+  });
 
   return (
     <fieldset>
@@ -30,7 +43,7 @@ export default function ItemForm({ submitData }: ItemFieldSetProps) {
         onClick={() => {
           submitData(name, num);
         }}
-        label="Criar"
+        label="Enviar"
         type="submit"
       />
     </fieldset>
@@ -39,4 +52,5 @@ export default function ItemForm({ submitData }: ItemFieldSetProps) {
 
 type ItemFieldSetProps = {
   submitData: (name: string, num: number) => void;
+  id?: number;
 };
