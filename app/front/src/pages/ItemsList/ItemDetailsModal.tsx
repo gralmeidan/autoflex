@@ -7,6 +7,7 @@ import formatingUtils from '../../utils/formating.utils';
 import SmallItemCard from '../../components/SmallItemCard';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
+import AddRelationship from './AddRelationship';
 
 export default function ItemDetailsModal({
   id,
@@ -46,8 +47,8 @@ export default function ItemDetailsModal({
           {getRequirements().map((obj) => (
             <SmallItemCard {...obj} key={obj.id} />
           ))}
-          <button className="ul-card">+ Novo</button>
         </ul>
+        <AddRelationship />
       </div>
       <footer className="flex  gap-2">
         <Button
