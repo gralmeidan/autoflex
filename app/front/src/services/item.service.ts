@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export default abstract class ItemService<FindOneType, FindAllType> {
+export default abstract class ItemService<
+  FindOneType,
+  FindAllType,
+  CreateInput,
+> {
   protected baseUrl: string;
 
   constructor(protected type: string) {
@@ -17,6 +21,12 @@ export default abstract class ItemService<FindOneType, FindAllType> {
 
   public async fetchOne(id: number | string): Promise<FindOneType> {
     return axios.get(`${this.baseUrl}/${id}`);
+  }
+
+  public async create(
+    obj: CreateInput,
+  ): Promise<Omit<FindOneType, 'materials' | 'products'>> {
+    return axios.post(this.baseUrl, { ...obj });
   }
 
   protected encodeQueryObj(
