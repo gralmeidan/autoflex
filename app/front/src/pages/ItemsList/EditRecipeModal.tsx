@@ -8,11 +8,22 @@ export default function EditRecipeModal({
   allowDelete,
   submitData,
 }: EditRecipeModalProps) {
+  const [message, setMessage] = useState('');
   const [quantity, setQuantity] = useState(0);
+
+  const handleClick = () => {
+    if (quantity <= 0) {
+      setMessage('A quantidade deve ser maior que 0');
+      return;
+    }
+
+    submitData(quantity);
+    closeModal();
+  };
 
   return (
     <Modal closeModal={closeModal} title="Editar receita">
-      <div className="mt-4">
+      <div className="mt-4 mb-2">
         <NumberInput
           label="Material por produto"
           setValue={setQuantity}
@@ -20,18 +31,13 @@ export default function EditRecipeModal({
           decimals={0}
           min={0}
         />
+        {message}
       </div>
       <footer className="flex gap-2 mt-0 pb-2">
         {allowDelete && (
           <Button label="Excluir" onClick={() => ''} className="secondary" />
         )}
-        <Button
-          label="Confirmar"
-          onClick={() => {
-            submitData(quantity);
-            closeModal();
-          }}
-        />
+        <Button label="Confirmar" onClick={handleClick} />
       </footer>
     </Modal>
   );
