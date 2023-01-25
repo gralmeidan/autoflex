@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { type ApiError } from '../types/errors.types';
+import { type CreateUpdateResponse } from '../types/response.types';
 
 export default abstract class ItemService<
   FindOneType,
@@ -25,8 +27,8 @@ export default abstract class ItemService<
 
   public async create(
     obj: CreateInput,
-  ): Promise<Omit<FindOneType, 'materials' | 'products'>> {
-    return axios.post(this.baseUrl, { ...obj });
+  ): Promise<CreateUpdateResponse<FindOneType>> {
+    return axios.post(this.baseUrl, { ...obj }).catch(this.handleError);
   }
 
   protected encodeQueryObj(
@@ -38,4 +40,23 @@ export default abstract class ItemService<
       )
       .join(',');
   }
+
+  protected isApiError(error: unknown): error is ApiError {
+    return 'response' in (error as ApiError);
+  }
+
+  protected handleError = (error: unknown) => {
+    if (this.isApiError(error)) {
+      const { response } = error;
+
+      return {
+        error: {
+          status: error.response.status,
+          message: response.data.message,
+        },
+      };
+    }
+
+    throw error;
+  };
 }

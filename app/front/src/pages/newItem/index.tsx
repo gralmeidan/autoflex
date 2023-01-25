@@ -4,10 +4,15 @@ import NumberInput from '../../components/NumberInput';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import productService from '../../services/product.service';
+import { type ServiceError } from '../../types/errors.types';
+import { type CreateUpdateResponse } from '../../types/response.types';
 
 export default function NewItemPage() {
   const [num, setNum] = useState(0);
   const [name, setName] = useState('');
+  const [response, setResponse] = useState<
+    CreateUpdateResponse<unknown> | undefined
+  >();
   const isProducts = useLocation().pathname.includes('products');
   const type = isProducts ? 'Produto' : 'Material';
 
@@ -17,7 +22,7 @@ export default function NewItemPage() {
       value: num,
     });
 
-    console.log(resp);
+    setResponse(resp);
   };
 
   return (
@@ -42,6 +47,12 @@ export default function NewItemPage() {
           />
           <Button onClick={submitData} label="Criar" type="submit" />
         </fieldset>
+        {response &&
+          (response.error ? (
+            <p>{response.error.message}</p>
+          ) : (
+            <ins>{type} inserido com sucesso</ins>
+          ))}
       </form>
     </main>
   );
