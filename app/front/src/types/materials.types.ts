@@ -11,5 +11,5 @@ export type Material = {
   name: string;
   quantity: number;
   thumb: string;
-  products?: Products;
+  products?: Products[];
 };

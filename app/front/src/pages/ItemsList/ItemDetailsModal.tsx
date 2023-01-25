@@ -4,13 +4,24 @@ import { type ProductIndividual } from '../../types/products.types';
 import { type Material } from '../../types/materials.types';
 import usePickService from '../../hooks/usePickService';
 import formatingUtils from '../../utils/formating.utils';
+import SmallItemCard from '../../components/SmallItemCard';
 
 export default function ItemDetailsModal({
   id,
   closeModal,
 }: ItemDetailsModalProps) {
   const { service } = usePickService();
-  const [data, setData] = useState<ProductIndividual | Material | undefined>();
+  const [data, setData] = useState<
+    ProductIndividual | Required<Material> | undefined
+  >();
+
+  const getRequirements = () => {
+    if (!data) {
+      return [];
+    }
+
+    return 'materials' in data ? data.materials : data.products;
+  };
 
   useEffect(() => {
     (async () => {
@@ -28,8 +39,11 @@ export default function ItemDetailsModal({
             ? `Valor: ${formatingUtils.currency(data.value)}`
             : `Quantidade: ${data.quantity}`}
         </h5>
-        <ul className="flex list-none">
-          <li>foo</li>
+        <ul className="flex list-none gap-4 flex-wrap">
+          {getRequirements().map((obj) => (
+            <SmallItemCard {...obj} key={obj.id} />
+          ))}
+          <button className="ul-card">+ Novo</button>
         </ul>
       </div>
     </Modal>
