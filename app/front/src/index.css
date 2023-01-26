@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.ul-card {
-  @apply list-none p-2 border-[#18232c] border-2 rounded-md flex-grow bg-transparent
-  focus:shadow-none focus:bg-[#18232c];
+button.material-symbols-outlined {
+  @apply focus:shadow-none w-fit p-0 border-0 focus:shadow-transparent m-0;
 }
