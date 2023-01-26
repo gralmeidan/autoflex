@@ -7,7 +7,8 @@ export default class FileRoutes {
   constructor(protected controller = new RecipeController()) {
     this._router = express.Router();
 
-    this._router.put('/', controller.appendToRecipe);
+    this._router.post('/', controller.appendToRecipe);
+    this._router.put('/', controller.updateRecipe);
   }
 
   public get router(): express.Router {

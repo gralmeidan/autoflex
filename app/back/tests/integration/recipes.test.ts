@@ -13,6 +13,9 @@ describe('Tests all routes on /recipes', () => {
   beforeEach(() => {
     Sinon.stub(MaterialProductModel, 'create').resolves(mockRecipeEntry as any);
     Sinon.stub(MaterialProductModel, 'findOne').resolves(undefined);
+    Sinon.stub(MaterialProductModel, 'update').resolves({
+      affectedCount: 1,
+    } as any);
     Sinon.stub(MaterialModel, 'findByPk').resolves(productData as any);
     Sinon.stub(ProductModel, 'findByPk').resolves(materialData as any);
   });
@@ -20,16 +23,37 @@ describe('Tests all routes on /recipes', () => {
   afterEach(() => {
     (MaterialProductModel.create as Sinon.SinonStub).restore();
     (MaterialProductModel.findOne as Sinon.SinonStub).restore();
+    (MaterialProductModel.update as Sinon.SinonStub).restore();
     (MaterialModel.findByPk as Sinon.SinonStub).restore();
     (ProductModel.findByPk as Sinon.SinonStub).restore();
   });
 
-  describe('Tests PUT /recipes', () => {
+  describe('Tests POST /recipes', () => {
     it('Should return the newly created entry', async () => {
-      const result = await request(app).put('/recipes').send(mockRecipeEntry);
+      const result = await request(app).post('/recipes').send(mockRecipeEntry);
 
       expect(result.status).to.equal(201);
       expect(result.body).to.deep.equal(mockRecipeEntry);
+    });
+  });
+
+  describe('Tests PUT /recipes', () => {
+    it('Should return the newly updated entry', async () => {
+      (MaterialProductModel.findOne as Sinon.SinonStub).resolves(
+        mockRecipeEntry
+      );
+      const result = await request(app)
+        .put('/recipes')
+        .send({
+          ...mockRecipeEntry,
+          quantity: 20,
+        });
+
+      expect(result.status).to.equal(200);
+      expect(result.body).to.deep.equal({
+        ...mockRecipeEntry,
+        quantity: 20,
+      });
     });
   });
 });
