@@ -4,11 +4,13 @@ import ItemsListPage from './pages/ItemsList';
 import NewItemPage from './pages/newItem';
 import UpdateItemPage from './pages/updateItem';
 import { ItemsContextProvider } from './context/ItemsContextProvider';
+import Header from './components/Header';
 
 function App() {
   return (
     <BrowserRouter>
       <ItemsContextProvider>
+        <Header />
         <Routes>
           {['/materials', 'products'].map((path, i) => (
             <React.Fragment key={i}>
