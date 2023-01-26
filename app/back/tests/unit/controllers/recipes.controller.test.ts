@@ -12,6 +12,7 @@ const { expect } = chai;
 describe('Unit tests for RecipeController', () => {
   const service = {
     appendToRecipe: Sinon.stub().resolves(mockRecipeEntry),
+    updateRecipe: Sinon.stub().resolves(mockRecipeEntry),
   };
 
   const controller = new RecipeController(service as any);
@@ -22,6 +23,16 @@ describe('Unit tests for RecipeController', () => {
       await controller.appendToRecipe(req, res);
 
       expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(mockRecipeEntry);
+    });
+  });
+
+  describe('Tests RecipeController.updateRecipe', () => {
+    it('Should return the expected result', async () => {
+      const { req, res } = mockExpressParams();
+      await controller.updateRecipe(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(mockRecipeEntry);
     });
   });

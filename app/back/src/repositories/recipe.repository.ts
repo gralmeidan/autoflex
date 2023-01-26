@@ -28,4 +28,22 @@ export default class RecipeRepository {
       },
     });
   }
+
+  public updateRecipe({
+    productId,
+    materialId,
+    quantity,
+  }: MaterialProductModel) {
+    return this.model.update(
+      {
+        quantity,
+      },
+      {
+        where: {
+          productId,
+          materialId,
+        },
+      }
+    );
+  }
 }
