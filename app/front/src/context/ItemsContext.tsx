@@ -12,7 +12,7 @@ type ItemsContext = {
   itemsList: ProductByFindAll[] | Material[];
   item: ProductIndividual | Required<Material> | undefined;
   fetchItem: (id?: string | number) => Promise<void>;
-  fetchList: (query?: Record<string, string | number | boolean>) => void;
+  fetchList: () => void;
   appendToList: (obj: {
     name: string;
     value?: number;
@@ -36,6 +36,8 @@ type ItemsContext = {
   removeFromRecipe: (
     entry: Omit<RecipeEntry, 'quantity'>,
   ) => Promise<CreateUpdateResponse<RecipeEntry>>;
+  includeUncraftable: boolean;
+  setIncludeUncraftable: (includeUncraftable: boolean) => void;
 };
 
 export const itemsContext = createContext({});

@@ -11,6 +11,7 @@ import { type Material } from '../types/materials.types';
 import { itemsContext } from './ItemsContext';
 
 export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
+  const [includeUncraftable, setIncludeUncraftable] = useState(false);
   const [itemsList, setItemsList] = useState(
     [] as ProductByFindAll[] | Material[],
   );
@@ -20,10 +21,8 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
 
   const { service } = usePickService();
 
-  const fetchList = async (
-    query?: Record<string, string | number | boolean>,
-  ) => {
-    const resp = await service.fetchAll(query);
+  const fetchList = async () => {
+    const resp = await service.fetchAll({ includeUncraftable });
     setItemsList(resp);
   };
 
@@ -121,6 +120,8 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     appendToRecipe,
     updateRecipe,
     removeFromRecipe,
+    includeUncraftable,
+    setIncludeUncraftable,
   };
 
   return (

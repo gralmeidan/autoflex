@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ItemTable from './ItemTable';
 import { useItems } from '../../context/ItemsContext';
 import { ModalContextProvider } from '../../context/ModalContextProvider';
 
 export default function ItemsListPage() {
-  const { itemsList, fetchList } = useItems();
-  const [includeUncraftable, setIncludeUncraftable] = useState(false);
+  const { itemsList, fetchList, includeUncraftable, setIncludeUncraftable } =
+    useItems();
   const { pathname } = useLocation();
 
   useEffect(() => {
-    fetchList({ includeUncraftable });
+    fetchList();
   }, [includeUncraftable]);
 
   return (
