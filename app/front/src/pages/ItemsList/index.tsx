@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { type Material } from '../../types/materials.types';
-import { type ProductByFindAll } from '../../types/products.types';
-import productService from '../../services/product.service';
-import materialService from '../../services/material.service';
 import ItemTable from './ItemTable';
+import { useItems } from '../../context/ItemsContext';
 
 export default function ItemsListPage() {
-  const [data, setData] = useState([] as ProductByFindAll[] | Material[]);
+  const { itemsList, fetchList } = useItems();
   const [includeUncraftable, setIncludeUncraftable] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => {
-    (async () => {
-      const service =
-        pathname === '/products' ? productService : materialService;
-      const resp = await service.fetchAll({ includeUncraftable });
-      setData(resp);
-    })();
-  }, [setData, pathname, includeUncraftable]);
+    fetchList({ includeUncraftable });
+  }, [includeUncraftable]);
 
   return (
     <main className="container py-8">
@@ -40,7 +32,7 @@ export default function ItemsListPage() {
           </label>
         )}
       </div>
-      <ItemTable data={data} />
+      <ItemTable data={itemsList} />
     </main>
   );
 }

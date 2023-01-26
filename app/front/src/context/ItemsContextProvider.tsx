@@ -18,17 +18,18 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     ProductIndividual | Required<Material> | undefined
   >();
 
-  const pickService = () => {
-    return usePickService().service;
-  };
+  const { service } = usePickService();
 
-  const fetchList = async () => {
-    const resp = await pickService().fetchAll();
+  const fetchList = async (
+    query?: Record<string, string | number | boolean>,
+  ) => {
+    const resp = await service.fetchAll(query);
     setItemsList(resp);
   };
 
-  const fetchItem = async (id: string | number = 1) => {
-    const resp = await pickService().fetchOne(id);
+  const fetchItem = async (id: string | number = 0) => {
+    const resp = await service.fetchOne(id);
+    console.log(id);
     setItem(resp);
   };
 
@@ -37,7 +38,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     value?: number;
     quantity?: number;
   }) => {
-    const resp = await pickService().create(obj);
+    const resp = await service.create(obj);
     if (resp.error) {
       return resp;
     }
@@ -54,7 +55,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       quantity?: number;
     },
   ) => {
-    const resp = await pickService().update(id, obj);
+    const resp = await service.update(id, obj);
     if (resp.error) {
       return resp;
     }
@@ -64,12 +65,17 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     return resp;
   };
 
-  const removeFromList = async (id: string) => {
-    const resp = await pickService().remove(id);
+  const removeFromList = async (id: string | number) => {
+    const resp = await service.remove(id);
     if (resp.error) {
       return resp;
     }
 
+    if (item?.id === id) {
+      setItem(undefined);
+    }
+
+    console.log(id);
     void fetchList();
     return resp;
   };
@@ -80,6 +86,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       return resp;
     }
 
+    void fetchList();
     void fetchItem(item?.id);
     return resp;
   };
@@ -90,6 +97,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       return resp;
     }
 
+    void fetchList();
     void fetchItem(item?.id);
     return resp;
   };

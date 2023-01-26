@@ -1,61 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Modal from '../../components/Modal';
-import { type ProductIndividual } from '../../types/products.types';
-import { type Material } from '../../types/materials.types';
 import usePickService from '../../hooks/usePickService';
 import formatingUtils from '../../utils/formating.utils';
 import SmallItemCard from '../../components/SmallItemCard';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import AddRelationship from './AddRelationship';
+import { useItems } from '../../context/ItemsContext';
 
 export default function ItemDetailsModal({
   id,
   closeModal,
 }: ItemDetailsModalProps) {
   const navigate = useNavigate();
-  const { service, pathname } = usePickService();
-  const [data, setData] = useState<
-    ProductIndividual | Required<Material> | undefined
-  >();
+  const { pathname } = usePickService();
+  const { item, fetchItem, removeFromList } = useItems();
 
   const getRequirements = () => {
-    if (!data) {
+    if (!item) {
       return [];
     }
 
-    return 'materials' in data ? data.materials : data.products;
+    return 'materials' in item ? item.materials : item.products;
   };
 
   useEffect(() => {
-    (async () => {
-      const response = await service.fetchOne(id);
+    void fetchItem(id);
+  }, [id]);
 
-      setData(response);
-    })();
-  }, []);
-
-  return data ? (
-    <Modal title={data.name} closeModal={closeModal}>
+  return item ? (
+    <Modal title={item.name} closeModal={closeModal}>
       <div>
         <h5>
-          {'value' in data
-            ? `Valor: ${formatingUtils.currency(data.value)}`
-            : `Quantidade: ${data.quantity}`}
+          {'value' in item
+            ? `Valor: ${formatingUtils.currency(item.value)}`
+            : `Quantidade: ${item.quantity}`}
         </h5>
         <ul className="flex list-none gap-4 flex-wrap">
           {getRequirements().map((obj) => (
             <SmallItemCard {...obj} key={obj.id} />
           ))}
         </ul>
-        <AddRelationship id={data.id} />
+        <AddRelationship id={item.id} />
       </div>
       <footer className="flex  gap-2">
         <Button
           label="Excluir"
           className="secondary"
           onClick={() => {
-            void service.remove(id);
+            void removeFromList(id);
+            closeModal();
           }}
         />
         <Button

@@ -4,9 +4,10 @@ import { type ProductByFindAll } from '../../types/products.types';
 import { type Material } from '../../types/materials.types';
 import Button from '../../components/Button';
 import EditRecipeModal from './EditRecipeModal';
-import recipeService from '../../services/recipe.service';
+import { useItems } from '../../context/ItemsContext';
 
 export default function AddRelationship({ id }: AddRelationshipProps) {
+  const { appendToRecipe } = useItems();
   const [selected, setSelected] = useState('0');
   const [modal, setModal] = useState(false);
   const [options, setOptions] = useState([] as ProductByFindAll[] | Material[]);
@@ -23,18 +24,18 @@ export default function AddRelationship({ id }: AddRelationshipProps) {
 
   const submitData = async (quantity: number) => {
     if (isProducts) {
-      await recipeService.appendToRecipe({
+      return appendToRecipe({
         productId: id,
         materialId: selected,
         quantity,
       });
-    } else {
-      await recipeService.appendToRecipe({
-        productId: selected,
-        materialId: id,
-        quantity,
-      });
     }
+
+    return appendToRecipe({
+      productId: selected,
+      materialId: id,
+      quantity,
+    });
   };
 
   return (

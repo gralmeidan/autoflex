@@ -12,7 +12,7 @@ type ItemsContext = {
   itemsList: ProductByFindAll[] | Material[];
   item: ProductIndividual | Required<Material> | undefined;
   fetchItem: (id?: string | number) => Promise<void>;
-  fetchList: () => void;
+  fetchList: (query?: Record<string, string | number | boolean>) => void;
   appendToList: (obj: {
     name: string;
     value?: number;
@@ -26,7 +26,7 @@ type ItemsContext = {
       quantity?: number | undefined;
     },
   ) => Promise<CreateUpdateResponse<Required<unknown>>>;
-  removeFromList: (id: string) => Promise<CreateUpdateResponse<never>>;
+  removeFromList: (id: string | number) => Promise<CreateUpdateResponse<never>>;
   appendToRecipe: (
     entry: RecipeEntry,
   ) => Promise<CreateUpdateResponse<RecipeEntry>>;
