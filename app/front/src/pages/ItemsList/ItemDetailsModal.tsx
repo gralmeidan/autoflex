@@ -38,7 +38,7 @@ export default function ItemDetailsModal({
         </h5>
         <ul className="flex list-none gap-4 flex-wrap">
           {getRequirements().map((obj) => (
-            <SmallItemCard {...obj} key={obj.id} />
+            <SmallItemCard data={obj} key={obj.id} id={id} />
           ))}
         </ul>
         <AddRelationship id={item.id} />
