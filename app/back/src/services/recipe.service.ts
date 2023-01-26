@@ -41,4 +41,8 @@ export default class RecipeService {
       ...value,
     };
   }
+
+  public async removeRecipe(obj: Omit<RecipeEntry, 'quantity'>) {
+    return this.repo.removeFromRecipe(obj);
+  }
 }

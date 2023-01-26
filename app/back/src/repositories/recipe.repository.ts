@@ -1,5 +1,6 @@
 import { Identifier } from 'sequelize';
 import MaterialProductModel from '../database/models/materialProduct.model';
+import { RecipeEntry } from '../types/recipes.type';
 
 export default class RecipeRepository {
   protected model;
@@ -45,5 +46,17 @@ export default class RecipeRepository {
         },
       }
     );
+  }
+
+  public removeFromRecipe({
+    productId,
+    materialId,
+  }: Omit<RecipeEntry, 'quantity'>) {
+    return this.model.destroy({
+      where: {
+        productId,
+        materialId,
+      },
+    });
   }
 }

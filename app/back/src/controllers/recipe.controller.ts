@@ -14,4 +14,10 @@ export default class RecipeController {
     const resp = await this.service.updateRecipe(req.body);
     return res.status(HTTP_STATUS.OK).json(resp);
   };
+
+  public removeFromRecipe = async (req: Request, res: Response) => {
+    const { productId, materialId } = req.params;
+    await this.service.removeRecipe({ productId, materialId });
+    return res.status(HTTP_STATUS.NO_CONTENT).send();
+  };
 }
