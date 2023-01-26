@@ -21,7 +21,9 @@ export default function AddRelationship({
 
   useEffect(() => {
     (async () => {
-      const resp = await service.fetchAll();
+      const resp = await service.fetchAll({
+        includeUncraftable: true,
+      });
       const filtered = (resp as Array<{ id: number }>).filter(({ id }) => {
         return !(requirements as Array<{ id: number }>).find(
           (req) => req.id === id,
@@ -33,7 +35,6 @@ export default function AddRelationship({
   }, [requirements]);
 
   const submitData = async (quantity: number) => {
-    console.log(selected);
     if (isProducts) {
       return appendToRecipe({
         productId: id,

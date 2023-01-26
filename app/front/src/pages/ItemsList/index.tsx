@@ -11,7 +11,7 @@ export default function ItemsListPage() {
 
   useEffect(() => {
     fetchList();
-  }, [includeUncraftable]);
+  }, [includeUncraftable, pathname]);
 
   return (
     <ModalContextProvider>

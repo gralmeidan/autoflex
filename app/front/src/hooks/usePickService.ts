@@ -5,10 +5,11 @@ import materialService from '../services/material.service';
 export default function usePickService(invert?: boolean) {
   const location = useLocation();
   const isProducts = location.pathname.includes('product');
+  const chooseService = invert ? !isProducts : isProducts;
 
   return {
     isProducts,
     ...location,
-    service: isProducts && !invert ? productService : materialService,
+    service: chooseService ? productService : materialService,
   };
 }
