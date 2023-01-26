@@ -32,6 +32,7 @@ describe('Unit tests for RecipeService', () => {
 
   const repo = {
     appendToRecipe: Sinon.stub().resolves(mockRecipeEntry),
+    findByIds: Sinon.stub().resolves(undefined),
   } as any;
 
   const service = new RecipeService(repo);
@@ -99,6 +100,17 @@ describe('Unit tests for RecipeService', () => {
 
       expect(err.status).to.equal(404);
       expect(err.message).to.equal('Product not found!');
+    });
+
+    it('Should throw an error when the the entry already exists', async () => {
+      repo.findByIds.resolves(mockRecipeEntry);
+
+      const err = await expect(
+        service.appendToRecipe(mockRecipeEntry)
+      ).to.be.rejectedWith(RestError);
+
+      expect(err.status).to.equal(409);
+      expect(err.message).to.equal('Entry already exists!');
     });
   });
 });

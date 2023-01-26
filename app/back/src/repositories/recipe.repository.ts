@@ -1,3 +1,4 @@
+import { Identifier } from 'sequelize';
 import MaterialProductModel from '../database/models/materialProduct.model';
 
 export default class RecipeRepository {
@@ -16,6 +17,15 @@ export default class RecipeRepository {
       productId,
       materialId,
       quantity,
+    });
+  }
+
+  public findByIds(productId: Identifier, materialId: Identifier) {
+    return this.model.findOne({
+      where: {
+        productId,
+        materialId,
+      },
     });
   }
 }
