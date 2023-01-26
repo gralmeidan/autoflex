@@ -13,6 +13,7 @@ describe('Tests all routes on /recipes', () => {
   beforeEach(() => {
     Sinon.stub(MaterialProductModel, 'create').resolves(mockRecipeEntry as any);
     Sinon.stub(MaterialProductModel, 'findOne').resolves(undefined);
+    Sinon.stub(MaterialProductModel, 'destroy').resolves(1);
     Sinon.stub(MaterialProductModel, 'update').resolves({
       affectedCount: 1,
     } as any);
@@ -24,6 +25,7 @@ describe('Tests all routes on /recipes', () => {
     (MaterialProductModel.create as Sinon.SinonStub).restore();
     (MaterialProductModel.findOne as Sinon.SinonStub).restore();
     (MaterialProductModel.update as Sinon.SinonStub).restore();
+    (MaterialProductModel.destroy as Sinon.SinonStub).restore();
     (MaterialModel.findByPk as Sinon.SinonStub).restore();
     (ProductModel.findByPk as Sinon.SinonStub).restore();
   });
@@ -53,6 +55,24 @@ describe('Tests all routes on /recipes', () => {
       expect(result.body).to.deep.equal({
         ...mockRecipeEntry,
         quantity: 20,
+      });
+    });
+  });
+
+  describe('Tests DELETE /recipes/:productId/:materialId', () => {
+    it('Should return nothing with a 204 status code', async () => {
+      const response = await request(app).delete('/recipes/1/2').send();
+
+      expect(response.status).to.equal(204);
+      expect(response.body).to.deep.equal({});
+    });
+
+    it('Should return nothing 422 if either id is invalid', async () => {
+      const response = await request(app).delete('/recipes/string/2').send();
+
+      expect(response.status).to.equal(422);
+      expect(response.body).to.deep.equal({
+        message: '"productId" must be a number',
       });
     });
   });
