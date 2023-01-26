@@ -29,7 +29,6 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
 
   const fetchItem = async (id: string | number = 0) => {
     const resp = await service.fetchOne(id);
-    console.log(id);
     setItem(resp);
   };
 
@@ -75,7 +74,6 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       setItem(undefined);
     }
 
-    console.log(id);
     void fetchList();
     return resp;
   };

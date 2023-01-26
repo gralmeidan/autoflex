@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { type Material } from '../../types/materials.types';
 import { type ProductByFindAll } from '../../types/products.types';
 import formattingUtils from '../../utils/formating.utils';
-import ItemDetailsModal from './ItemDetailsModal';
+import { useModal } from '../../context/ModalContext';
 
 export default function ItemRow({ item, i }: ItemRowProps) {
-  const [detailed, setDetailed] = useState(false);
+  const { openModal } = useModal();
 
   function isProduct(
     item: Material | ProductByFindAll,
@@ -18,7 +18,7 @@ export default function ItemRow({ item, i }: ItemRowProps) {
       <tr
         data-testid={`item-row-${i}`}
         onClick={() => {
-          setDetailed(true);
+          openModal(item.id);
         }}
         className="cursor-pointer"
       >
@@ -42,14 +42,6 @@ export default function ItemRow({ item, i }: ItemRowProps) {
           <td data-testid={`item-row-${i}-quantity`}>{item.quantity}</td>
         )}
       </tr>
-      {detailed && (
-        <ItemDetailsModal
-          id={item.id}
-          closeModal={() => {
-            setDetailed(false);
-          }}
-        />
-      )}
     </>
   );
 }
