@@ -4,12 +4,13 @@ import { type ProductByFindAll } from '../../types/products.types';
 import { type Material } from '../../types/materials.types';
 import Button from '../../components/Button';
 import EditRecipeModal from './EditRecipeModal';
+import recipeService from '../../services/recipe.service';
 
-export default function AddRelationship() {
+export default function AddRelationship({ id }: AddRelationshipProps) {
   const [selected, setSelected] = useState('0');
   const [modal, setModal] = useState(false);
   const [options, setOptions] = useState([] as ProductByFindAll[] | Material[]);
-  const { service } = usePickService(true);
+  const { service, isProducts } = usePickService(true);
 
   useEffect(() => {
     (async () => {
@@ -20,8 +21,20 @@ export default function AddRelationship() {
     })();
   }, []);
 
-  const submitData = (qtd: number) => {
-    console.log(qtd, selected);
+  const submitData = async (quantity: number) => {
+    if (isProducts) {
+      await recipeService.appendToRecipe({
+        productId: id,
+        materialId: selected,
+        quantity,
+      });
+    } else {
+      await recipeService.appendToRecipe({
+        productId: selected,
+        materialId: id,
+        quantity,
+      });
+    }
   };
 
   return (
@@ -54,3 +67,7 @@ export default function AddRelationship() {
     </div>
   );
 }
+
+type AddRelationshipProps = {
+  id: string | number;
+};

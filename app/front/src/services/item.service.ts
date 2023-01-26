@@ -46,7 +46,9 @@ export default abstract class ItemService<
       .catch(this.handleError);
   }
 
-  public async remove(id: string | number) {
-    return axios.delete(`${this.baseUrl}/${id}`);
+  public async remove(
+    id: string | number,
+  ): Promise<CreateUpdateResponse<never>> {
+    return axios.delete(`${this.baseUrl}/${id}`).catch(this.handleError);
   }
 }
