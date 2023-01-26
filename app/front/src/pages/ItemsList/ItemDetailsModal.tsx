@@ -41,7 +41,7 @@ export default function ItemDetailsModal({
             <SmallItemCard data={obj} key={obj.id} id={id} />
           ))}
         </ul>
-        <AddRelationship id={item.id} />
+        <AddRelationship id={item.id} requirements={getRequirements()} />
       </div>
       <footer className="flex  gap-2">
         <Button

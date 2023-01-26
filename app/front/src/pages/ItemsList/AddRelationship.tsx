@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import usePickService from '../../hooks/usePickService';
-import { type ProductByFindAll } from '../../types/products.types';
+import {
+  type Product,
+  type ProductByFindAll,
+} from '../../types/products.types';
 import { type Material } from '../../types/materials.types';
 import Button from '../../components/Button';
 import EditRecipeModal from './EditRecipeModal';
 import { useItems } from '../../context/ItemsContext';
 
-export default function AddRelationship({ id }: AddRelationshipProps) {
+export default function AddRelationship({
+  id,
+  requirements,
+}: AddRelationshipProps) {
   const { appendToRecipe } = useItems();
   const [selected, setSelected] = useState('0');
   const [modal, setModal] = useState(false);
@@ -16,13 +22,18 @@ export default function AddRelationship({ id }: AddRelationshipProps) {
   useEffect(() => {
     (async () => {
       const resp = await service.fetchAll();
+      const filtered = (resp as Array<{ id: number }>).filter(({ id }) => {
+        return !(requirements as Array<{ id: number }>).find(
+          (req) => req.id === id,
+        );
+      });
 
-      setOptions(resp);
-      setSelected(String(resp[0].id));
+      setOptions(filtered as ProductByFindAll[] | Material[]);
     })();
-  }, []);
+  }, [requirements]);
 
   const submitData = async (quantity: number) => {
+    console.log(selected);
     if (isProducts) {
       return appendToRecipe({
         productId: id,
@@ -71,4 +82,5 @@ export default function AddRelationship({ id }: AddRelationshipProps) {
 
 type AddRelationshipProps = {
   id: string | number;
+  requirements: Material[] | Product[];
 };
